@@ -14,6 +14,7 @@ conversation_history = []
 
 def blank():
     print("")
+    
 blank()
 
 while True:
