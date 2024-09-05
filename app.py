@@ -17,6 +17,8 @@ def ask():
     
     messages, bot_response = chat(user_input, messages)
     
+    print (messages)
+    
     return render_template('index.html', user_input=user_input, bot_response=bot_response)
 
 if __name__ == '__main__':

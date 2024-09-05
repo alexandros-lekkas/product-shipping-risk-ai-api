@@ -11,7 +11,7 @@ starterLine = "You are an AI financial assistant. Your purpose is to assist user
 
 # Message history config (trimmer)
 trimmer = trim_messages(
-    max_tokens=65,
+    max_tokens=125,
     strategy="last",
     token_counter=model,
     include_system=True,
