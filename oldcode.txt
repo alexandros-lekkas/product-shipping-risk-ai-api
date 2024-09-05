@@ -10,7 +10,7 @@ def get_chatbot_respsonse(user_input, conversation_history):
     
 
 load_dotenv()
-openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_api_key = 
 os.environ["OPENAI_API_KEY"] = openai_api_key
 
 categorizer_model = ChatOpenAI(model="gpt-4o-mini")
