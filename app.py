@@ -1,19 +1,18 @@
 from flask import Flask, render_template, request
-from chatbot import chat # Importing chatbot logic
+from chatbot import chat
 
-# LLM setup
 messages = []
 
 app = Flask(__name__)
 
-# Root route rendering front page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# API route handling chatbot interaction
 @app.route('/ask', methods=['POST'])
 def ask():
+    global messages
+    
     user_input = request.form['user_input']
     
     messages, bot_response = chat(user_input, messages)
