@@ -21,7 +21,10 @@ trimmer = trim_messages(
 
 # Basic chat function
 def chat(user_input, messages):
-    messages = trimmer.invoke(messages)
+    if messages:
+        messages = trimmer.invoke(messages)
+    else:
+        print("No reason to trim messages.")
     messages.append(HumanMessage(content=user_input))
     
     # Categorize incoming message
