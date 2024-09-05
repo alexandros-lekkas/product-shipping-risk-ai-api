@@ -1,8 +1,31 @@
+# General dependencies
 import os
 import json
 from dotenv import load_dotenv
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
+
+# Langchain dependencies
+import bs4
+from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_chroma import Chroma
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+
+conversation_history = []
+
+def get_chatbot_respsonse(user_input, conversation_history):
+    model = ChatOpenAI(model="gpt-4o-mini")
+    messaages = [
+        SystemMessage(content=)
+    ]
+
+    
 
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
