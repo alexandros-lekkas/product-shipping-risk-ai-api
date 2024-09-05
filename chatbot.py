@@ -38,6 +38,33 @@ def chat(user_input, messages):
         category = parsed_response['category']
     except json.JSONDecodeError:
         category = "UNKNOWN"
+        
+    # Actually respond
+    if category == "GENERAL":
+        new_system_message = (
+            
+        )
+        messages = update_system_message(messages, new_system_message)
+    elif category == "FINANCE":
+        new_system_message = (
+            
+        )
+        messages = update_system_message(messages, new_system_message)
+    elif category == "RANDOM":
+        new_system_message = (
+            
+        )
+        messages = update_system_message(messages, new_system_message)
+    elif category == "UNKNOWN":
+        new_system_message = (
+            
+        )
+        messages = update_system_message(messages, new_system_message)
+    else:
+        new_system_message = (
+            
+        )
+        messages = update_system_message(messages, new_system_message)
 
 # Update system message in chat history
 def update_system_message(messages, new_system_message):
