@@ -52,7 +52,6 @@ def ask():
 
     # Serialize and update session with the latest messages
     session['messages'] = serialize_messages(messages)
-    print("Serialized messages")
 
     return render_template('index.html', user_input=user_input, bot_response=bot_response)
 

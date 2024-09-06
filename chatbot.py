@@ -6,7 +6,7 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim
 
 # LLM configuration
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
-model = ChatOpenAI(model="gpt-3.5-turbo")
+model = ChatOpenAI(model="gpt-4o-mini")
 starterLine = "You are an AI financial assistant. Your purpose is to assist users with chats primarily related to finance."
 
 # Message history config (trimmer)
@@ -22,7 +22,7 @@ trimmer = trim_messages(
 # Basic chat function
 def chat(user_input, messages):
     if messages:
-        messages = trimmer.invoke(messages)
+        messages = trimmer(messages)
     else:
         print("No reason to trim messages.")
     messages.append(HumanMessage(content=user_input))
@@ -83,7 +83,7 @@ def chat(user_input, messages):
     
     # Generate and return response and updated messages
     response = model.invoke(messages)
-    messages.append(AIMessage(content={response.content}))
+    messages.append(AIMessage(content=response.content))
     messages.append(HumanMessage(content=user_input))
     return messages, {response.content}
         
