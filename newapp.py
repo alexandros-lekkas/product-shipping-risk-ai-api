@@ -6,4 +6,6 @@ app = Flask(__name__)
 def advice():
     data = request.json
     
-    
+    if 'messages' not in session:
+        session['messages'] = []
+        print()
