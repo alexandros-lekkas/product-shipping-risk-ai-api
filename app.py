@@ -32,16 +32,16 @@ def advice():
     item_data = json.loads(item_data)
         
     messages = [
-        SystemMessage(content=(load_prompt("promps/api_call_determination.txt"))),
+        SystemMessage(content=(load_prompt("prompts/api_call_determination.txt"))),
         HumanMessage(content=f"User Message: {user_input}\nItem Data: {item_data}")
     ]
     response = model.invoke(messages)
     api_call = parse_ai_response(response, 'api_call', 'none')
     
     if api_call == "none":
-        prompt = load_prompt("promps/api_call_determination.txt")
+        prompt = load_prompt("prompts/no_call.txt")
     elif api_call == "estimate_shipping": # Subject to change + API call in background
-        prompt = load_prompt("promps/api_call_determination.txt")
+        prompt = load_prompt("prompts/no_call.txt")
  
     messages = [
         SystemMessage(content=prompt),
