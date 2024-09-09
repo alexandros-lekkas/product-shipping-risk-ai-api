@@ -1,59 +1,59 @@
-from flask import Flask, render_template, request, session
-from chatbot import chat
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+import json
 import os
+import yaml
+from flask import Flask, request, jsonify
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
 
-app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Secret key for session
-
-# Helper function to serialize messages
-def serialize_messages(messages):
-    serialized = []
-    for message in messages:
-        if isinstance(message, HumanMessage):
-            serialized.append({'type': 'human', 'content': message.content})
-        elif isinstance(message, AIMessage):
-            serialized.append({'type': 'ai', 'content': message.content})
-        elif isinstance(message, SystemMessage):
-            serialized.append({'type': 'system', 'content': message.content})
-    return serialized
-
-# Helper function to deserialize messages
-def deserialize_messages(serialized_messages):
-    messages = []
-    for message in serialized_messages:
-        if message['type'] == 'human':
-            messages.append(HumanMessage(content=message['content']))
-        elif message['type'] == 'ai':
-            messages.append(AIMessage(content=message['content']))
-        elif message['type'] == 'system':
-            messages.append(SystemMessage(content=message['content']))
-    return messages
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/ask', methods=['POST'])
-def ask():
-    user_input = request.form['user_input']
+def load_config(config_path='config.yaml'):
+    with open(config_path, 'r') as file:
+        return yaml.safe_load(file)
     
-    # Load messages from session and deserialize, or initialize if not available
-    if 'messages' not in session:
-        session['messages'] = []
-        print("Messages not in session")
-    messages = deserialize_messages(session['messages'])
-    print("Deserialize messages")
+def load_prompt(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+    
+def parse_ai_response(response, key, default):
+    try:
+        parsed_response = json.loads(response.content)
+        key = parsed_response[key]
+    except json.JSONDecodeError:
+        key = default
+        
+    return key
+    
+app = Flask(__name__) 
 
-    # Chat and get bot response
-    messages, bot_response = chat(user_input, messages)
-    print(messages)
-    print(bot_response)
-
-    # Serialize and update session with the latest messages
-    session['messages'] = serialize_messages(messages)
-
-    return render_template('index.html', user_input=user_input, bot_response=bot_response)
+@app.route("/advice/product", methods=['POST'])
+def advice():
+    user_input = request.form['user_input']
+    item_data = request.form['item_data']
+    
+    item_data = json.loads(item_data)
+        
+    messages = [
+        SystemMessage(content=(load_prompt("promps/api_call_determination.txt"))),
+        HumanMessage(content=f"User Message: {user_input}\nItem Data: {item_data}")
+    ]
+    response = model.invoke(messages)
+    
+    api_call = parse_ai_response(response, 'api_call', 'none')
+    
+    if api_call == "none":
+        prompt = load_prompt("promps/api_call_determination.txt")
+    elif api_call == "estimate_shipping": # Subject to change + API call in background
+        prompt = load_prompt("promps/api_call_determination.txt")
+ 
+    messages = [
+        SystemMessage(content=prompt),
+        HumanMessage(content=f"User Message: {user_input}\nItem Data: {item_data}")
+    ]
+    respone = model.invoke(messages)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    config = load_config()
+    
+    os.environ["OPENAI_API_KEY"] = os.getenv("OEPNAI_API_KEY")
+    model = ChatOpenAI(model=config['openai']['model'])
+    
+    app.run(config['debug'])
