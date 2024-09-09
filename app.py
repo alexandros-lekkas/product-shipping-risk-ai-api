@@ -36,7 +36,6 @@ def advice():
         HumanMessage(content=f"User Message: {user_input}\nItem Data: {item_data}")
     ]
     response = model.invoke(messages)
-    
     api_call = parse_ai_response(response, 'api_call', 'none')
     
     if api_call == "none":
@@ -48,12 +47,13 @@ def advice():
         SystemMessage(content=prompt),
         HumanMessage(content=f"User Message: {user_input}\nItem Data: {item_data}")
     ]
-    respone = model.invoke(messages)
+    response = model.invoke(messages)
+    return response.content
 
 if __name__ == '__main__':
     config = load_config()
     
-    os.environ["OPENAI_API_KEY"] = os.getenv("OEPNAI_API_KEY")
+    os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
     model = ChatOpenAI(model=config['openai']['model'])
     
-    app.run(config['debug'])
+    app.run(debug=config['debug'])
