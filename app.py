@@ -2,7 +2,7 @@ import json
 import os
 import yaml
 import requests
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Header
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
@@ -37,6 +37,12 @@ def invoke_model_simple(prompt, content):
     response = model.invoke(messages)
     return response
 
+# Check API key
+def get_api_key(api_key: str = Header(...)):
+    if api_key != os.getenv("API_KEY"):
+        raise HTTPException(status_code=401, detail="Invalid API key")
+    return api_key
+
 # Initialize console
 console = Console()
 
@@ -52,7 +58,7 @@ model = ChatOpenAI(model=config['openai']['model'])
 class ProductAdviceRequest(BaseModel):
     user_input: str
     item_data: dict
-@app.post('/advice/product')
+@app.post('/advice/product', dependencies=[Depends(get_api_key)])
 def advice(request: ProductAdviceRequest):
     user_input = request.user_input
     item_data = request.item_data
