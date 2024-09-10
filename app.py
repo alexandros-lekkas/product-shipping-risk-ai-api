@@ -2,7 +2,8 @@ import json
 import os
 import yaml
 import requests
-from flask import Flask, request, jsonify, request
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
 
@@ -35,13 +36,16 @@ def invoke_model_simple(prompt, content):
     response = model.invoke(messages)
     return response
    
-app = Flask(__name__) 
+app = FastAPI()
 
 # Get advice for a product (could be risk, could be shipping)
-@app.route('/advice/product', methods=['POST'])
-def advice():
-    user_input = request.form['user_input']
-    item_data = request.form['item_data']
+class ProductAdviceRequest(BaseModel):
+    user_input: str
+    item_data: dict
+@app.post('/advice/product')
+def advice(request: ProductAdviceRequest):
+    user_input = request.user_input
+    item_data = request.item_data
     
     item_data = json.loads(item_data)
     
@@ -95,10 +99,12 @@ def advice():
         else: # There was an error
             return natural_language_error_message
 
+# Main func to run when script is loaded
 if __name__ == '__main__':
     config = load_config()
     
     os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
     model = ChatOpenAI(model=config['openai']['model'])
     
-    app.run(debug=config['debug'])
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000, debug=config['debug'])
