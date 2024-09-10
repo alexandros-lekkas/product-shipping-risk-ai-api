@@ -6,14 +6,17 @@ from flask import Flask, request, jsonify, request
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
 
+# Load config YAML
 def load_config(config_path='config.yaml'):
     with open(config_path, 'r') as file:
         return yaml.safe_load(file)
-    
+
+# Load prompt from TXT for organization & reusability
 def load_prompt(file_path):
     with open(file_path, 'r') as file:
         return file.read()
 
+# Parse a response from AI for JSON
 def parse_ai_response(response, key, default):
     try:
         parsed_response = json.loads(response.content)
@@ -23,6 +26,7 @@ def parse_ai_response(response, key, default):
         
     return key
 
+# SystemMessage & HumanMessage simple AI call (2 messages in context)
 def invoke_model_simple(prompt, content):
     messages = [
         SystemMessage(content=prompt),
@@ -52,7 +56,7 @@ def advice():
         response = invoke_model_simple(prompt, f'User Message: {user_input}\nItem Data: {item_data}')
         return response
     elif api_call == 'estimate_shipping': # Estimate Shipping
-        prompt = load_prompt('estimate_shipping_parameters.txt')
+        prompt = load_prompt('prompts/estimate_shipping_parameters.txt')
         response = invoke_model_simple(prompt, f'User Message: {user_input}\nItem Data: {item_data}')
 
         natural_language_error_message = 'Unfortunately I ran into some issues while attempting to estimate the shipping for this item. Is there anything else I can help with?'
@@ -70,22 +74,26 @@ def advice():
             if (key == ''):
                 return natural_language_error_message
         
-        # Perform API call to estimate shipping cost
-        api_url = 
-        data = {
-            title
+        # Perform API call
+        config = load_config()
+        api_url = config['api_calls']['estimate_shipping']['url']
+        payload = {
+            "country_name": country,
+            "weight_g": weight_g,
+            "height_cm": height_cm,
+            "width_cm": width_cm,
+            "length_cm": length_cm
         }
-        response = requests.post(api_url)
+        response = requests.post(api_url, json=payload)
         
-        if response.status_code == 200:
+        if response.status_code == 200: # Successful execution (calculation happened)
             api_response_data = response.json()
-            print(jsonify(api_response_data))
             
-            
-        else:
-            return 
- 
-
+            prompt = load_prompt('prompts/shipping_results_received.txt')
+            response = invoke_model_simple(prompt, f'User Message: {user_input}\nItem Data: {item_data}')
+            return response.content
+        else: # There was an error
+            return natural_language_error_message
 
 if __name__ == '__main__':
     config = load_config()
