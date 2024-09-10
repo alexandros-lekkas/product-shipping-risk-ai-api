@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
+from rich.console import Console
 
 # Load config YAML
 def load_config(config_path='config.yaml'):
@@ -48,21 +49,22 @@ def advice(request: ProductAdviceRequest):
     user_input = request.user_input
     item_data = request.item_data
     
-    item_data = json.loads(item_data)
-    
     # Perform API call categorization call
-    load_prompt('prompts/api_call_determination.txt')
+    prompt = load_prompt('prompts/api_call_determination.txt')
     response = invoke_model_simple(prompt, f'User Message: {user_input}\nItem Data: {item_data}')
     api_call = parse_ai_response(response, 'api_call', 'none')
+    print('[bold green]Response (Categorization):[/bold green]',response.content)
     
     # Seperate functionality (based on determined API call)
     if api_call == 'none': # None / No API Call
         prompt = load_prompt('prompts/no_call.txt')
         response = invoke_model_simple(prompt, f'User Message: {user_input}\nItem Data: {item_data}')
-        return response
+        print('[bold green]Response (No Call):[/bold green]',response.content)
+        return response.content
     elif api_call == 'estimate_shipping': # Estimate Shipping
         prompt = load_prompt('prompts/estimate_shipping_parameters.txt')
         response = invoke_model_simple(prompt, f'User Message: {user_input}\nItem Data: {item_data}')
+        print('[bold green]Response (Estimate Shipping):[/bold green]',response.content)
 
         natural_language_error_message = 'Unfortunately I ran into some issues while attempting to estimate the shipping for this item. Is there anything else I can help with?'
                 
@@ -77,6 +79,7 @@ def advice(request: ProductAdviceRequest):
         keys = [country, weight_g, height_cm, length_cm, width_cm]
         for key in keys:
             if (key == ''):
+                print('[bold red]Issues:[/bold red]',natural_language_error_message)
                 return natural_language_error_message
         
         # Perform API call
@@ -96,8 +99,10 @@ def advice(request: ProductAdviceRequest):
             
             prompt = load_prompt('prompts/shipping_results_received.txt')
             response = invoke_model_simple(prompt, f'User Message: {user_input}\nItem Data: {item_data}')
+            print('[bold green]Response (Shipping Results Received):[/bold green]',response.content)
             return response.content
         else: # There was an error
+            print('[bold red]Issues:[/bold red]',natural_language_error_message)
             return natural_language_error_message
 
 # Main func to run when script is loaded
@@ -108,4 +113,4 @@ if __name__ == '__main__':
     model = ChatOpenAI(model=config['openai']['model'])
     
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000, reload=config['reload'])
