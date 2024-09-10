@@ -1,7 +1,8 @@
 import json
 import os
 import yaml
-from flask import Flask, request, jsonify
+import requests
+from flask import Flask, request, jsonify, request
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
 
@@ -40,8 +41,22 @@ def advice():
     
     if api_call == "none":
         prompt = load_prompt("prompts/no_call.txt")
-    elif api_call == "estimate_shipping": # Subject to change + API call in background
-        prompt = load_prompt("prompts/no_call.txt")
+    elif api_call == "estimate_shipping":
+        prompt = load_prompt("estimate_shipping_parameters.txt")
+        
+        api_url = "https://qiyrhobdkqezshwhokmw.supabase.co/rest/v1/rpc/calculateshippingcost"
+        data = {
+            title
+        }
+        response = requests.post(api_url)
+        
+        if response.status_code == 200:
+            api_response_data = response.json()
+            print(jsonify(api_response_data))
+            
+            
+        else:
+            return "Unfortunately I ran into some issues while attempting to estimate the shipping for this item. Is there anything else I can help with?"
  
     messages = [
         SystemMessage(content=prompt),
