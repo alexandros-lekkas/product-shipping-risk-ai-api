@@ -17,6 +17,9 @@ Copy code
   "height_cm": "<estimated_height_in_cm>",
   "width_cm": "<estimated_width_in_cm>",
   "length_cm": "<estimated_length_in_cm>",
-  "country": "<user_country_or_null>"
+  "country": "<user_country_or_null>" # PLEASE COUNTRY FIRST LETTER CAPITAL REST NOT CAPITAL
 }
+
+EVERY TIME JUST FILL IN ALL OF THE DETAILS TRY NOT TO LEAVE THEM EMPTY PLEASE
+
 If the data does not contain enough information for a specific parameter, you can make an educated guess based on similar items. If no country is mentioned, return null for the country field.
