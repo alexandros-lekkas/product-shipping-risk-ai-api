@@ -35,8 +35,9 @@ def invoke_model_simple(prompt, content):
     ]
     response = model.invoke(messages)
     return response
-   
-app = FastAPI()
+
+config = load_config()
+app = FastAPI(debug=config['debug'])
 
 # Get advice for a product (could be risk, could be shipping)
 class ProductAdviceRequest(BaseModel):
@@ -107,4 +108,4 @@ if __name__ == '__main__':
     model = ChatOpenAI(model=config['openai']['model'])
     
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, debug=config['debug'])
+    uvicorn.run(app, host="0.0.0.0", port=8000)
