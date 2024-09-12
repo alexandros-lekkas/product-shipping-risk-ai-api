@@ -1,0 +1,43 @@
+name: CI Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Set up environment variables
+      run: |
+        echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+        echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
+        echo "SUPABASE_ANON_API_KEY=${{ secrets.SUPABASE_ANON_API_KEY }}" >> $GITHUB_ENV
+        echo "SUPABASE_ANON_BEARER=${{ secrets.SUPABASE_ANON_BEARER }}" >> $GITHUB_ENV
+
+    - name: Run FastAPI app
+      run: |
+        nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+
+    - name: Check if FastAPI app is running
+      run: |
+        sleep 10
+        curl --silent --fail http://localhost:8000
