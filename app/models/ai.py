@@ -6,8 +6,8 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 class AI:
     natural_language_error_message = 'Unfortunately I ran into some issues with your request, is there anything else I can help with?'
  
-    def __init__(self, model):
-        self.model = ChatOpenAI(model)
+    def __init__(self, model_name):
+        self.model = ChatOpenAI(model=model_name)
         self.OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')                  
             
     def get(self,key,default=None):
