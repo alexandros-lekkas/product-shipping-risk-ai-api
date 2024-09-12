@@ -1,43 +1,4 @@
-import json
-import os
-import yaml
-import requests
-from fastapi import Depends, FastAPI, HTTPException, Header
-from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
-from rich.console import Console
 
-
-# Load prompt from TXT for organization & reusability
-def load_prompt(file_path):
-    with open(file_path, 'r') as file:
-        return file.read()
-
-# Parse a response from AI for JSON
-def parse_ai_response(response, key, default):
-    try:
-        parsed_response = json.loads(response.content)
-        key = parsed_response[key]
-    except json.JSONDecodeError:
-        key = default
-        
-    return key
-
-# SystemMessage & HumanMessage simple AI call (2 messages in context)
-def invoke_model_simple(prompt, content):
-    messages = [
-        SystemMessage(content=prompt),
-        HumanMessage(content=content)
-    ]
-    response = model.invoke(messages)
-    return response
-
-# Check API key
-def get_api_key(api_key: str = Header(...)):
-    if api_key != os.getenv("API_KEY"):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    return api_key
 
 # Initialize console
 console = Console()

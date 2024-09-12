@@ -1,16 +1,6 @@
-import os
-import yaml
+from config import Config
 
-def load_config(config_path):
-    with open(config_path, 'r') as file:
-        return yaml.safe_load(file)
+from fastapi import FastAPI
 
-class Config:
-    debug = True
-    reload = True
-    
-    def __init__(self, config_path):
-        config = load_config(config_path)
-        
-        self.debug = config['debug']
-        self.reload = config['reload']
+config = Config()
+app = FastAPI(debug=config.debug)
