@@ -1,4 +1,9 @@
+# Security
 .env
+
+# Code Editor
 .vscode
+
+# Python
 .venv
 __pycache__
