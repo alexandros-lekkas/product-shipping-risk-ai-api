@@ -12,7 +12,7 @@ def get_advice(user_input, item_data):
     
     response = ai.invoke_structured(api_call_determination, input_string, APICallDetermination)
     
-    if response.api_call == 'none': return ai.invoke_model_simple(no_call, input_string).content
+    if response.api_call == 'none': return ai.invoke_simple(no_call, input_string).content
     elif response.api_call == 'estimate_shipping':
         response = ai.invoke_structured(estimate_shipping_parameters, input_string, EstimatedShippingParameters)
             
