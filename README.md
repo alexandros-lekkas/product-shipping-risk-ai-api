@@ -1,19 +1,19 @@
 # Product Shipping/Risk AI API 🧑‍💻🛒
 
-This repository hosts an **AI-powered API** that assists shipping agents in determining whether products are risky or safe to ship. The API uses natural language processing to analyze user input and product details, returning suggestions based on shipping rules and potential product risks.
-
-## Features
-
-- 🚚 **Shipping Risk Analysis**: Automatically assess whether a product poses risks during shipping.
-- 📦 **AI-Powered Decisions**: Leverages the OpenAI API to provide shipping advice based on the analysis of user messages and product details.
-- 🌍 **Global Shipping Support**: Designed for shipping agents dealing with international logistics.
+## 💡 Features
+- 🚚 **Shipping Risk Analysis**: Assists users in recognizing the risks of shipping certain products to their location.
+- 📦 **AI-Powered Decisions**: Leverages AI to provide flexible responses to user queries that do not have to be hard coded.
+- 🌍 **Global Shipping Support**: Designed for shipping agents dealing with international logistics, currently interfaces with (HaulBuy's)[https://www.haulbuy.com] shipping API as an example.
 - 🔧 **Configurable Prompts**: Customize system behavior with prompt files to adjust the responses of the AI model.
 
-## Why?
+## 🤔 Why?
 
-Shipping agents often face the challenge of shipping potentially risky items to different countries. If a prohibited or hazardous item is shipped, the shipping company may be held liable for customs violations or safety breaches. This API helps mitigate that risk by determining, based on input, whether an item is risky and providing advice accordingly.
+Shipping agents, who mostly act as middlemen, oftentimes bear a lot of legal risk when malicious users decide to violate their TOS by attempting to ship out prohibited or hazardous items. Frequently, these agents can be held liable for customs violations and safety breaches. This API's goal is to help mitigate that risk by determining, based on input, whether an item is risky or not and providing advice accordingly.
 
-## Running Locally
+## 🌟 As Seen On
+- **(HaulBuy)[https://www.haulbuy.com]**: The first shipping agent to adopt and implement this technology, enhancing the safety of their shipping processes. As outlined in the Features section of this README, HaulBuy's shipping line API serves as a prime example, as they directly commissioned me to develop this solution for their platform. However, the product is versatile and can be applied across various platforms.
+
+## 🧑‍💻 Running Locally
 
 To run this API locally:
 
@@ -36,7 +36,7 @@ To run this API locally:
 
 4. Configure the prompts and API settings in `config.yaml`.
 
-5. Run the `app.py` python file or with Uvicorn:
+5. Run the `run.py` python file or with Uvicorn:
    ```bash
    uvicorn app:app --host 127.0.0.1 --port 8000 --reload
    ```
