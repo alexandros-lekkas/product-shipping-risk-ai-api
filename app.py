@@ -8,10 +8,6 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, trim_messages
 from rich.console import Console
 
-# Load config YAML
-def load_config(config_path='config.yaml'):
-    with open(config_path, 'r') as file:
-        return yaml.safe_load(file)
 
 # Load prompt from TXT for organization & reusability
 def load_prompt(file_path):

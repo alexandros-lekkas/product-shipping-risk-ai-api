@@ -1,10 +1,2 @@
-# config.yaml - default config for cheap running & debugging
 debug: True
 reload: True
-openai:
-  model: 'gpt-3.5-turbo' # / gpt-4 (for better performance)
-api_calls:
-  estimate_shipping:
-    url: 'https://qiyrhobdkqezshwhokmw.supabase.co/rest/v1/rpc/calculateshippingcost' # Change to your API call URL
-
-# TODO: Make shipping calculation variable if this project gets any usage?
