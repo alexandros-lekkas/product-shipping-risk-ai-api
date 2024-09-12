@@ -1,8 +1,8 @@
 from app.models.ai import AI
 from app.api.supabase import estimate_shipping
-from app.prompts.api_call_determination import api_call_determination
+from app.prompts.api_call_determination import api_call_determination, APICallDetermination
 from app.prompts.no_call import no_call
-from app.prompts.estimate_shipping_parameters import estimate_shipping_parameters
+from app.prompts.estimate_shipping_parameters import estimate_shipping_parameters, EstimatedShippingParameters
 from app.prompts.shipping_results_received import shipping_results_received
 
 def get_advice(user_input, item_data):
@@ -10,17 +10,11 @@ def get_advice(user_input, item_data):
     
     ai = AI("gpt-4o-mini")
     
-    api_call = ai.invoke_and_parse_model_response(api_call_determination, input_string, 'api_call', 'none')
+    response = ai.invoke_structured(api_call_determination, input_string, APICallDetermination)
     
-    if api_call == 'none': return ai.invoke_model_simple(no_call, input_string).content
-    elif api_call == 'estimate_shipping':
-        response = ai.invoke_model_simple(estimate_shipping_parameters, user_input)
-        
-        country = ai.parse_ai_response(response, 'country', '')
-        weight_g = ai.parse_ai_response(response, 'weight_g', '')
-        height_cm = ai.parse_ai_response(response, 'height_cm', '')
-        length_cm = ai.parse_ai_response(response, 'length_cm', '')
-        width_cm = ai.parse_ai_response(response, 'width_cm', '')
+    if response.api_call == 'none': return ai.invoke_model_simple(no_call, input_string).content
+    elif response.api_call == 'estimate_shipping':
+        response = ai.invoke_structured(estimate_shipping_parameters, input_string, EstimatedShippingParameters)
         
         keys = [country, weight_g, height_cm, length_cm, width_cm]
         for key in keys:

@@ -1,3 +1,8 @@
+from langchain_core.pydantic_v1 import BaseModel, Field
+
+class APICallDetermination(BaseModel):
+    api_call: str = Field(description = 'The determined API call to perform.')
+
 api_call_determination = """
     You are an AI assistant tasked with determining whether or not an API call is needed based on a user's message!
     

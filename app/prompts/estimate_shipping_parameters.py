@@ -1,5 +1,13 @@
-estimate_shipping_parameters = """
+from langchain_core.pydantic_v1 import BaseModel, Field
 
+class EstimatedShippingParameters(BaseModel):
+  country: str = Field(description = 'Name of a country other than China where the user wants to ship their item to. Must begin with capital letter.')
+  weight_g: str = Field(description = 'Estimated weight of item in g.')
+  height_cm: str = Field(description = 'Estimated height of item in cm.')
+  width_cm: str = Field(description = 'Estimated width of item in cm.')
+  length_cm: str = Field(description = 'Estimated length of item in cm.')
+    
+estimate_shipping_parameters = """
 You are an AI assistant tasked with estimating the necessary parameters for calculating shipping costs based on item data. You will receive details about an item (e.g., weight, dimensions) and the user's message.
 
 Your goal is to do the following:
