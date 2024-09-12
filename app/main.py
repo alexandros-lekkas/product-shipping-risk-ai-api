@@ -1,7 +1,7 @@
 import os
 
-from config import Config
-from routes.routes import router as api_router
+from app.config import Config
+from app.routes.routes import router as api_router
 
 from fastapi import FastAPI
 

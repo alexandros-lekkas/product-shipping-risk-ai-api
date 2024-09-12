@@ -1,9 +1,9 @@
-from models.ai import AI
-from api.supabase import estimate_shipping
-from prompts.api_call_determination import api_call_determination
-from prompts.no_call import no_call
-from prompts.estimate_shipping_parameters import estimate_shipping_parameters
-from prompts.shipping_results_received import shipping_results_received
+from app.models.ai import AI
+from app.api.supabase import estimate_shipping
+from app.prompts.api_call_determination import api_call_determination
+from app.prompts.no_call import no_call
+from app.prompts.estimate_shipping_parameters import estimate_shipping_parameters
+from app.prompts.shipping_results_received import shipping_results_received
 
 def get_advice(user_input, item_data):
     input_string = f'User Message: {user_input}\nItem Data: {item_data}'

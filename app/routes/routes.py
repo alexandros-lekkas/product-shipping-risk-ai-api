@@ -1,6 +1,6 @@
-from utils.api import check_api_key
-from models.product_advice import ProductAdviceRequest
-from services.get_advice import get_advice
+from app.utils.api import check_api_key
+from app.models.product_advice import ProductAdviceRequest
+from app.services.get_advice import get_advice
 
 from fastapi import APIRouter, Depends
 

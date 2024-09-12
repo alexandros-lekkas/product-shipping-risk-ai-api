@@ -1,7 +1,4 @@
-from utils.file import load_file
-
-import os
-import yaml
+from app.utils.file import load_file
 
 class Config:
     def __init__(self, config_path):
