@@ -1,6 +1,9 @@
 import os
 import requests
 
+class ShippingMissing(Exception):
+    pass
+
 def estimate_shipping(country, weight_g, height_cm, width_cm, length_cm):
     api_url = 'https://qiyrhobdkqezshwhokmw.supabase.co/rest/v1/rpc/calculateshippingcost'
     
@@ -19,3 +22,8 @@ def estimate_shipping(country, weight_g, height_cm, width_cm, length_cm):
     }
     
     response = requests.post(api_url, json=payload, headers=headers)
+    
+    if (response.status_code == 200):
+        return response.json()
+    else:
+        raise ShippingMissing
