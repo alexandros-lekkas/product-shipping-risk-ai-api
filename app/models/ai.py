@@ -4,6 +4,8 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 class AI:
+    natural_language_error_message = 'Unfortunately I ran into some issues with your request, is there anything else I can help with?'
+ 
     def __init__(self, model):
         self.model = ChatOpenAI(model)
         self.OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')                  
@@ -28,3 +30,7 @@ class AI:
             key = default
             
         return key
+    
+    def invoke_and_parse_model_response(self, prompt, content, key, default):
+        response = self.invoke_model_simple(prompt, content)
+        return self.parse_ai_response(response, key, default)

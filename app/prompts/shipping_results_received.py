@@ -1,3 +1,4 @@
+shipping_results_received = """
 You have received shipping cost information for various shipping methods based on a user's query. Your goal is to present this information in a user-friendly way, providing the name of each shipping method and the estimated shipping cost.
 
 Response format: You must return the response as a clear, structured message that includes the following details:
@@ -31,3 +32,4 @@ vbnet
 Copy code
 I wasn't able to estimate the shipping cost for your item. Please verify the item details and try again.
 Always ensure your response is polite, clear, and helpful.
+"""
