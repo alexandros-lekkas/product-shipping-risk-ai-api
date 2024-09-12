@@ -1,4 +1,4 @@
-from fastapi import BaseModel
+from pydantic import BaseModel
 
 class ProductAdviceRequest(BaseModel):
     user_input: str

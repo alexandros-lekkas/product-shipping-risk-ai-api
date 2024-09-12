@@ -1,5 +1,5 @@
 from models.ai import AI
-from app.api.supabase import estimate_shipping
+from api.supabase import estimate_shipping
 from prompts.api_call_determination import api_call_determination
 from prompts.no_call import no_call
 from prompts.estimate_shipping_parameters import estimate_shipping_parameters

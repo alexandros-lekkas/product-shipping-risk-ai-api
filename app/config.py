@@ -1,4 +1,4 @@
-from .utils.file import load_file
+from utils.file import load_file
 
 import os
 import yaml
