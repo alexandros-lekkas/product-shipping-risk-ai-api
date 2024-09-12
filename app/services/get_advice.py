@@ -15,16 +15,16 @@ def get_advice(user_input, item_data):
     if response.api_call == 'none': return ai.invoke_model_simple(no_call, input_string).content
     elif response.api_call == 'estimate_shipping':
         response = ai.invoke_structured(estimate_shipping_parameters, input_string, EstimatedShippingParameters)
-        
-        keys = [country, weight_g, height_cm, length_cm, width_cm]
-        for key in keys:
-            if (key == ''):
-                return AI.natural_language_error_message
             
-        response = estimate_shipping(country, weight_g, height_cm, length_cm, width_cm)
+        response = estimate_shipping(response.country,
+                                     response.weight_g,
+                                     response.height_cm,
+                                     response.length_cm,
+                                     response.width_cm)
+        
         if response.status_code == 200:
             api_response_data = response.json()
             
-            return ai.invoke_model_simple(shipping_results_received, input_string)
+            return ai.invoke_simple(shipping_results_received, input_string)
         else:
             return AI.natural_language_error_message
