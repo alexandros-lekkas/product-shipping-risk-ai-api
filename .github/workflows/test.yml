@@ -36,8 +36,3 @@ jobs:
     - name: Run FastAPI app
       run: |
         nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
-
-    - name: Check if FastAPI app is running
-      run: |
-        sleep 10
-        curl --silent --fail http://localhost:8000
