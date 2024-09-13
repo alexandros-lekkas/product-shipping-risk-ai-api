@@ -1,8 +1,6 @@
 import os
 import yaml
-import numpy as np
-from langchain_openai import OpenAIEmbeddings
-from sklearn.metrics.pairwise import cosine_similarity
+
 
 def load_file(file_path):
     file_name, file_extension = os.path.splitext(file_path)

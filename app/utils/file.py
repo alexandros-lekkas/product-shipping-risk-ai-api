@@ -9,3 +9,14 @@ def load_file(file_path):
             return yaml.safe_load(file)
         else:
             return file.read()
+        
+def load_structured_yaml_file(file_path, fields):
+    file = load_file(file_path)
+    data = []
+    
+    for data in file:
+        new_data = fields[0]
+        for field in fields:
+            if (field != fields[0]):
+                new_data = new_data + " " + field
+            
