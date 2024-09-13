@@ -46,7 +46,7 @@ class AI:
         
         end_time = time.time()
         
-        return response, (start_time - end_time)
+        return response, (end_time - start_time)
     
     def embeddings_get_data(self, file_path, fields):
         data = load_structured_yaml_file(file_path, fields)
@@ -66,4 +66,4 @@ class AI:
         
         end_time = time.time()
         
-        return best_match_index_1, best_match_index_2, (start_time - end_time)
+        return best_match_index_1, best_match_index_2, (end_time - start_time)
