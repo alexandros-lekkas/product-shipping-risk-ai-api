@@ -38,4 +38,23 @@ class AI:
         return structured_llm_model.invoke(messages)
     
     def embeddings_get_data(self, file_path, fields):
+        data = load_structured_yaml_file(file_path, fields)
+        
+        self.original_data = data
+        self.embedded_data = self.embeddings_model.embed_documents(data)
+    
+    def embeddings_query_data(self, query):
+        embedded_query = self.embeddings_model.embed_query(query)
+        
+        similarities = cosine_similarity([embedded_query], self.embedded_data)[0]
+        sorted_similarity_indices = np.argsort(similarities)
+        best_match_index_1 = sorted_similarity_indices[-1]
+        best_match_index_2 = sorted_similarity_indices[-2]
+        best_match_1 = self.original_data[best_match_index_1]
+        best_match_2 = self.original_data[best_match_index_2]
+        
+        return best_match_1, best_match_2
+        
+if __name__ == '__main__':
+    print("Test")
         
