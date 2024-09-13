@@ -1,22 +1,20 @@
-from app.prompts.plum import plum, Plum
-from app.utils.file import load_file, load_structured_yaml_file
+from app.utils.file import load_structured_yaml_file
 
 import os
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.messages import HumanMessage, SystemMessage
+import time
 
 class AI:
     natural_language_error_message = 'Unfortunately I ran into some issues with your request, is there anything else I can help with?'
  
-    def __init__(self, model_name, llm, embeddings):
-        self.OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-        
+    def __init__(self, model_name, llm, embeddings):        
         if llm:
             self.llm_model = ChatOpenAI(model=model_name)
         if embeddings:
-            self.embeddings_model = OpenAIEmbeddings(self.OPENAI_API_KEY)    
+            self.embeddings_model = OpenAIEmbeddings(model='text-embedding-3-small')    
             
         if not llm and not embeddings:
             self.llm_model = ChatOpenAI(model=model_name)
@@ -35,6 +33,8 @@ class AI:
         return self.llm_model.invoke(messages)
     
     def llm_invoke_structured(self, prompt, input, structure):
+        start_time = time.time()
+        
         structured_llm_model = self.llm_model.with_structured_output(structure)
         
         messages = [
@@ -42,7 +42,11 @@ class AI:
             HumanMessage(content = input)
         ]
         
-        return structured_llm_model.invoke(messages)
+        response = structured_llm_model.invoke(messages)
+        
+        end_time = time.time()
+        
+        return response, (start_time - end_time)
     
     def embeddings_get_data(self, file_path, fields):
         data = load_structured_yaml_file(file_path, fields)
@@ -51,6 +55,8 @@ class AI:
         self.embedded_data = self.embeddings_model.embed_documents(data)
     
     def embeddings_query_data(self, query):
+        start_time = time.time()
+        
         embedded_query = self.embeddings_model.embed_query(query)
         
         similarities = cosine_similarity([embedded_query], self.embedded_data)[0]
@@ -58,4 +64,6 @@ class AI:
         best_match_index_1 = sorted_similarity_indices[-1]
         best_match_index_2 = sorted_similarity_indices[-2]
         
-        return best_match_index_1, best_match_index_2
+        end_time = time.time()
+        
+        return best_match_index_1, best_match_index_2, (start_time - end_time)

@@ -1,17 +1,19 @@
 from langchain_core.pydantic_v1 import BaseModel, Field
 
 class Plum(BaseModel):
-    best_match_1: str = Field(description = 'The index of the best matching item from the list given to you in your prompt.')
-    best_match_2: str = Field(description = 'The index of the second best matching item in your opinion.')
+    best_match_1: int = Field(description = 'The index of the best matching item from the list given to you in your prompt.')
+    best_match_2: int = Field(description = 'The index of the second best matching item in your opinion. It cannot be the same as the best_match_1')
 
 plum = """
     Based on the input you are given, you must respond with the best option from all of the options listed below to match.
     
     You will respond with the index of the first best match (closest match) and the second best match in your opinion.
     
+    2nd option CANNOT be the same as the first!
+    
     You will choose the best 2 options from the structured list below:
     
-- recommendation_id: open_cash_isa
+- 0 recommendation_id: open_cash_isa
   message: Open a Cash ISA
   deeplink: https://withplum.com/
   description: >
@@ -19,7 +21,7 @@ plum = """
   exclude_if_products_activated: 
       - cash_isa
 
-- recommendation_id: deposit_cash_isa
+- 1 recommendation_id: deposit_cash_isa
   message: Deposit to Cash ISA
   deeplink: https://withplum.com/
   description: >
@@ -27,7 +29,7 @@ plum = """
   include_if_products_activated:
       - cash_isa 
  
-- recommendation_id: transfer_cash_isa
+- 2 recommendation_id: transfer_cash_isa
   message: Transfer in to Cash ISA
   deeplink: https://withplum.com/
   description: >
@@ -35,7 +37,7 @@ plum = """
   include_if_products_activated: 
       - cash_isa
       
-- recommendation_id: open_plum_interest
+- 3 recommendation_id: open_plum_interest
   message: Open Plum Interest
   deeplink: https://withplum.com/
   description: >
@@ -43,7 +45,7 @@ plum = """
   exclude_if_products_activated: 
       - plum_interest   
 
-- recommendation_id: deposit_plum_interest
+- 4 recommendation_id: deposit_plum_interest
   message: Deposit to Plum Interest
   deeplink: https://withplum.com/
   description: >
@@ -51,7 +53,7 @@ plum = """
   include_if_products_activated: 
       - plum_interest
       
-- recommendation_id: open_sipp
+- 5 recommendation_id: open_sipp
   message: Open a SIPP
   deeplink: https://withplum.com/
   description: >
@@ -59,7 +61,7 @@ plum = """
   exclude_if_products_activated: 
       - SIPP
 
-- recommendation_id: transfer_sipp
+- 6 recommendation_id: transfer_sipp
   message: Transfer into SIPP
   deeplink: https://withplum.com/
   description: >
@@ -67,7 +69,7 @@ plum = """
   include_if_products_activated: 
       - SIPP
       
-- recommendation_id: open_stocks_shares_isa
+- 7 recommendation_id: open_stocks_shares_isa
   message: Open a Stocks & Shares ISA
   deeplink: https://withplum.com/
   description: >
@@ -75,7 +77,7 @@ plum = """
   exclude_if_products_activated: 
       - stocks_shares_isa
 
-- recommendation_id: open_stocks_shares_gia
+- 8 recommendation_id: open_stocks_shares_gia
   message: Open a Stocks & Shares GIA
   deeplink: https://withplum.com/
   description: >
@@ -83,7 +85,7 @@ plum = """
   exclude_if_products_activated: 
   - stocks_shares_gia    
 
-- recommendation_id: open_spend_tracker
+- 9 recommendation_id: open_spend_tracker
   message: Open Spend Tracker
   deeplink: https://withplum.com/
   description: >
@@ -91,14 +93,14 @@ plum = """
   exclude_if_products_activated: 
       - spend_tracker
       
-- recommendation_id: order_plum_card
+- 10 recommendation_id: order_plum_card
   message: Order a Plum Card
   deeplink: https://withplum.com/
   description: a suitable option for queries and responses related to cards or how to control spending. Only use this option when the agent response is related specifically to the card product.
   exclude_if_products_activated: 
       - plum_card
 
-- recommendation_id: open_goal_pocket
+- 11 recommendation_id: open_goal_pocket
   message: Open a goal pocket
   deeplink: https://withplum.com/
   description: >
@@ -106,14 +108,14 @@ plum = """
   exclude_if_products_activated: 
       - goal_pockets
       
-- recommendation_id: setup_savings_rule
+- 12 recommendation_id: setup_savings_rule
   message: Set up a savings rule
   deeplink: https://withplum.com/
   description: >
       a suitable option for user queries and agent responses related to saving more money or automation. You should only use this recommendation when agent response mentions that the user can automate savings using Plum or mentions that the user could consider using Plumʼs savings rules.
   exclude_if_products_activated: savings_rule
       
-- recommendation_id: visit_discover_screen
+- 13 recommendation_id: visit_discover_screen
   message: Visit Discover Screen
   deeplink: https://withplum.com/
   description: >
@@ -121,7 +123,7 @@ plum = """
   exclude_if_products_activated: 
       - discover_screen
            
-- recommendation_id: upgrade_subscription
+- 14 recommendation_id: upgrade_subscription
   message: Upgrade your subscription plan
   deeplink: withplum.com/_app/upgrade
   description: >
@@ -130,7 +132,7 @@ plum = """
       - UK Premium 
       - EU Premium   
   
-- recommendation_id: instant_transfers
+- 15 recommendation_id: instant_transfers
   message: Set up Instant Transfers
   deeplink: https://withplum.com/
   description: >
@@ -138,7 +140,7 @@ plum = """
   exclude_if_products_activated: 
       - instant_transfers
   
-- recommendation_id: open_pocket
+- 16 recommendation_id: open_pocket
   message: Open a Pocket
   deeplink: https://withplum.com/
   description: >
