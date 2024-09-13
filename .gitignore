@@ -7,6 +7,3 @@
 # Python
 .venv
 __pycache__
-
-# Ignore Experimental
-sr_version_2.yaml

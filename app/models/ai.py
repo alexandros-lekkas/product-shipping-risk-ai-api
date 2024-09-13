@@ -1,3 +1,5 @@
+from app.prompts.plum import plum, Plum
+
 import os
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -14,7 +16,12 @@ class AI:
         if llm:
             self.llm_model = ChatOpenAI(model=model_name)
         if embeddings:
-            self.embeddings_model = OpenAIEmbeddings(self.OPENAI_API_KEY)        
+            self.embeddings_model = OpenAIEmbeddings(self.OPENAI_API_KEY)    
+            
+        if not llm and not embeddings:
+            self.llm_model = ChatOpenAI(model=model_name)
+            
+            print("Forcefully creating LLM model, you must pick a model!") 
                        
     def get(self,key,default=None):
         return getattr(self, key, default)
@@ -55,6 +62,8 @@ class AI:
         
         return best_match_1, best_match_2
         
-if __name__ == '__main__':
-    print("Test")
-        
+if __name__ == '__main__':        
+    ai = AI("gpt-4o-mini", True, True)
+    
+    embeddings_get_data('sr_version_2.yaml', ['message', 'description'])
+    

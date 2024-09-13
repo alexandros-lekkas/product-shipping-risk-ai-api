@@ -1,0 +1,134 @@
+- recommendation_id: open_cash_isa
+  message: Open a Cash ISA
+  deeplink: https://withplum.com/
+  description: >
+    a suitable option for queries and responses related to Cash ISA, general ISA knowledge, how to save money safely or queries regarding tax efficiency. Only use this recommendation when it is clear from the agent response that a Cash ISA is being explained to the user or is being recommended as a suitable  option for the user. Do not use if the conversation relates specifically to stocks and shares ISAs.  
+  exclude_if_products_activated: 
+      - cash_isa
+
+- recommendation_id: deposit_cash_isa
+  message: Deposit to Cash ISA
+  deeplink: https://withplum.com/
+  description: >
+    a suitable option for queries and responses related to Cash ISA, general ISA knowledge, how to save money safely or queries regarding tax efficiency. Only use this recommendation when it is clear from the agent response that a Cash ISA is being explained to the user or is being recommended as a suitable  option for the user. Do not use if the conversation relates specifically to stocks and shares ISAs.   
+  include_if_products_activated:
+      - cash_isa 
+ 
+- recommendation_id: transfer_cash_isa
+  message: Transfer in to Cash ISA
+  deeplink: https://withplum.com/
+  description: >
+      a suitable option for queries and responses related to transferring a Cash ISA. Just use it in these cases, where you can see the conversation is about transferring a Cash ISA.
+  include_if_products_activated: 
+      - cash_isa
+      
+- recommendation_id: open_plum_interest
+  message: Open Plum Interest
+  deeplink: https://withplum.com/
+  description: >
+      Consider using when you see that a userʼs query relates specifically to Plum interest AND when you see that the agentʼs response calls out Plum Interest as a good option for the user. The key thing here is to understand that the agent is suggesting Plum Interest as a suitable product for a user and to recommend this option in those cases.
+  exclude_if_products_activated: 
+      - plum_interest   
+
+- recommendation_id: deposit_plum_interest
+  message: Deposit to Plum Interest
+  deeplink: https://withplum.com/
+  description: >
+      Consider using option when you see that a userʼs query relates specifically to Plum interest AND when you see that the agentʼs response calls out Plum Interest as a good option for the user.The key thing here is to understand that the agent is suggesting Plum Interest as a suitable product for a user and to recommend this option in those cases.
+  include_if_products_activated: 
+      - plum_interest
+      
+- recommendation_id: open_sipp
+  message: Open a SIPP
+  deeplink: https://withplum.com/
+  description: >
+      Consider using when you see that a userʼs query relates to Pensions AND you see that the agentʼs response mentions Plumʼs SIPP product as a good option for the user. Do not use if Plum's Pensions/SIPP product is not explicitly mentioned.
+  exclude_if_products_activated: 
+      - SIPP
+
+- recommendation_id: transfer_sipp
+  message: Transfer into SIPP
+  deeplink: https://withplum.com/
+  description: >
+      Consider using this option when you see that a userʼs query relates to Pensions AND you see that the agentʼs response mentions Plumʼs SIPP product. Do not use if Plum's Pensions/SIPP product is not explicitly mentioned.
+  include_if_products_activated: 
+      - SIPP
+      
+- recommendation_id: open_stocks_shares_isa
+  message: Open a Stocks & Shares ISA
+  deeplink: https://withplum.com/
+  description: >
+      a suitable option for queries and responses related to  Stocks & Shares ISAs, general ISA knowledge or queries regarding tax efficiency. Only use this recommendation when it is clear from the agent response that a Stocks & Shares ISA is being explained to the user or is being recommended as a suitable  option for the user. Do not use if the conversation relates specifically to Cash ISAs.  
+  exclude_if_products_activated: 
+      - stocks_shares_isa
+
+- recommendation_id: open_stocks_shares_gia
+  message: Open a Stocks & Shares GIA
+  deeplink: https://withplum.com/
+  description: >
+      a suitable option for queries and responses related to investing and stocks and shares for users that already maxed out their ISA.
+  exclude_if_products_activated: 
+  - stocks_shares_gia    
+
+- recommendation_id: open_spend_tracker
+  message: Open Spend Tracker
+  deeplink: https://withplum.com/
+  description: >
+      a suitable option for queries and responses related to expenses, tracking their spending or how they can budget better. If the agent response mentions to the user that they can use Plum to track their spending or directly mentions the Spend Tracker by name, then this recommendation is relevant.
+  exclude_if_products_activated: 
+      - spend_tracker
+      
+- recommendation_id: order_plum_card
+  message: Order a Plum Card
+  deeplink: https://withplum.com/
+  description: a suitable option for queries and responses related to cards or how to control spending. Only use this option when the agent response is related specifically to the card product.
+  exclude_if_products_activated: 
+      - plum_card
+
+- recommendation_id: open_goal_pocket
+  message: Open a goal pocket
+  deeplink: https://withplum.com/
+  description: >
+      a suitable option for queries and responses related to saving for a specific goal. If you see that the userʼs query is about how they can save for a specific goal and that the agentʼs response mentions setting up a goal pocket, then you should use this recommendation. If the agent response does not explicitly mention the concept of a goal pocket then do not use this recommendation.
+  exclude_if_products_activated: 
+      - goal_pockets
+      
+- recommendation_id: setup_savings_rule
+  message: Set up a savings rule
+  deeplink: https://withplum.com/
+  description: >
+      a suitable option for user queries and agent responses related to saving more money or automation. You should only use this recommendation when agent response mentions that the user can automate savings using Plum or mentions that the user could consider using Plumʼs savings rules.
+  exclude_if_products_activated: savings_rule
+      
+- recommendation_id: visit_discover_screen
+  message: Visit Discover Screen
+  deeplink: https://withplum.com/
+  description: >
+      The Discover screen allows users to browse through stocks and funds. Therefore this a suitable option for queries that related to learning more about investing where the agent response mentions that the user can explore investing through Plum OR mentions directly that the user should visit the discover screen. If neither of these two things are explicitly mentioned we should not use this recommendation.
+  exclude_if_products_activated: 
+      - discover_screen
+           
+- recommendation_id: upgrade_subscription
+  message: Upgrade your subscription plan
+  deeplink: withplum.com/_app/upgrade
+  description: >
+    a suitable option for queries and responses related to subscriptions for users who are on a subscription plan that is not Premium. Use this option when you see that the agentʼs response mentions that the user may be able to unlock more features if they subscribe or if the agent's response is explaining the details of each subscription package.
+  exclude_if_products_activated: 
+      - UK Premium 
+      - EU Premium   
+  
+- recommendation_id: instant_transfers
+  message: Set up Instant Transfers
+  deeplink: https://withplum.com/
+  description: >
+      A suitable option for queries and responses related to the speed of money movement or how to make the most out of Plum. Use if the agent response relates to quick/instant transfers. If you do not see the Plum's quick transfers product mentioned in the response then do not use this recommendation
+  exclude_if_products_activated: 
+      - instant_transfers
+  
+- recommendation_id: open_pocket
+  message: Open a Pocket
+  deeplink: https://withplum.com/
+  description: >
+          A suitable option for questions and responses about saving with interest accounts. When a users query relates to how save more or make more on their savings AND the agent response relates to Plums high interest savings accounts or Plumʼs pockets, then this is a relevant recommendation. If from the agents response you cannot see the concepts of high interest saving accounts or Plum pockets mentioned, then this recommendation should not be used.
+  exclude_if_products_activated: 
+      - pocket
