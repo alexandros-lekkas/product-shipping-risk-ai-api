@@ -4,7 +4,7 @@ from app.prompts.plum import plum, Plum
 
 def compare_models():
     file_name = 'sr_version_2.yaml'
-    data = load_file()
+    data = load_file(file_name)
     
     ai = AI("gpt-4o-mini", True, True)
     
@@ -13,7 +13,7 @@ def compare_models():
         query = input("Query: ")
         
         # Find match with embeddings
-        ai.embeddings_get_data('sr_version_2.yaml', ['message', 'description'])
+        ai.embeddings_get_data(file_name , ['message', 'description'])
         index_1, index_2 = ai.embeddings_query_data()
         embeddings_results = f'[Embeddings Results]\n1:{data[index_1]}\n2:{data[index_2]}\n'
         print(embeddings_results)
