@@ -1,11 +1,11 @@
 from app.prompts.plum import plum, Plum
+from app.utils.file import load_file, load_structured_yaml_file
 
 import os
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.messages import HumanMessage, SystemMessage
-from app.utils.file import load_file, load_structured_yaml_file
 
 class AI:
     natural_language_error_message = 'Unfortunately I ran into some issues with your request, is there anything else I can help with?'
@@ -59,23 +59,3 @@ class AI:
         best_match_index_2 = sorted_similarity_indices[-2]
         
         return best_match_index_1, best_match_index_2
-        
-# Testing code for embedding and LLM comparison
-if __name__ == '__main__':     
-    file_name = 'sr_version_2.yaml'
-    data = load_file()
-    
-    ai = AI("gpt-4o-mini", True, True)
-    
-    exit = False
-    while not exit:
-        query = input("Query: ")
-        
-        # Find match with embeddings
-        ai.embeddings_get_data('sr_version_2.yaml', ['message', 'description'])
-        index_1, index_2 = ai.embeddings_query_data()
-        print(f'[Embeddings Results]\n1:{data[index_1]}\n2:{data[index_2]}\n')
-        
-        # Find match with LLM
-        response = ai.llm_invoke_structured(plum, query, Plum)
-        print(f'[Embeddings Results]\n1:{data[response.best_match_1]}\n2:{data[response.best_match_2]}\n')
